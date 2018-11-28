@@ -1,0 +1,28 @@
+categories:
+- Device Plugin
+questions:
+- variable: defaultImage
+  default: true
+  description: "Use default Docker image"
+  label: Use Default Image
+  type: boolean
+  show_subquestion_if: false
+  group: "Container Images"
+  subquestions:
+  - variable: image.repository
+    default: "nvidia/k8s-device-plugin"
+    description: "Nvidia GPU device plugin"
+    type: string
+    label: Nvidia GPU device plugin Image Name
+  - variable: image.tag
+    default: "1.11"
+    description: "Nvidia GPU device plugin image tag"
+    type: string
+    label: Image Tag
+
+- variable: useNodeSelector
+  default: true
+  description: "true - deploy the dp to the node which has label - 'gpuNodeType=official' \n false - deploy the dp to all nodes"
+  label: Use Label 'gpuNodeType=official' to specify which node to deploy the device-plugin
+  type: boolean
+  group: "Node Selector"
