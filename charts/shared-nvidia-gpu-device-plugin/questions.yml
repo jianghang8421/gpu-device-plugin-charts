@@ -10,8 +10,8 @@ questions:
   group: "Container Images"
   subquestions:
   - variable: image.repository
-    default: "nvidia/k8s-device-plugin"
-    description: "Nvidia GPU device plugin"
+    default: "jianghang8421/shared-gpu-device-plugin"
+    description: "Shared Nvidia GPU device plugin"
     type: string
     label: Nvidia GPU device plugin Image Name
   - variable: image.tag
@@ -20,9 +20,16 @@ questions:
     type: string
     label: Image Tag
 
+- variable: numberOfContainersPerGPU
+  default: '10'
+  description: "Number of Containers per GPU"
+  label: Number of Containers per GPU
+  type: string
+  group: "GPU Sharing"
+  
 # - variable: useNodeSelector
 #   default: true
-#   description: "true - deploy the dp to the node which has label - 'gpuNodeType=default' \n false - deploy the dp to all nodes"
-#   label: Use Label 'gpuNodeType=default' to specify which node to deploy the device-plugin
+#   description: "true - deploy the dp to the node which has label - 'gpuNodeType=shared' \n false - deploy the dp to all nodes"
+#   label: Use Label 'gpuNodeType=shared' to specify which node to deploy the device-plugin
 #   type: boolean
 #   group: "Node Selector"

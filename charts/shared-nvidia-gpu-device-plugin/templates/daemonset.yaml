@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
-  name: nvidia-device-plugin-daemonset
+  name: shared-nvidia-device-plugin-daemonset
 #   namespace: kube-system
 spec:
   template:
@@ -12,7 +12,7 @@ spec:
       annotations:
         scheduler.alpha.kubernetes.io/critical-pod: ""
       labels:
-        name: nvidia-device-plugin-ds
+        name: shared-nvidia-device-plugin-ds
     spec:
       tolerations:
       # Allow this pod to be rescheduled while the node is in "critical add-ons only" mode.
@@ -25,6 +25,9 @@ spec:
       containers:
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: nvidia-device-plugin-ctr
+        env:
+          - name: DP_CONTAINERS_PER_GPU
+            value: "{{ .Values.numberOfContainersPerGPU }}"
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -38,5 +41,5 @@ spec:
             path: /var/lib/kubelet/device-plugins
       {{- if .Values.useNodeSelector }}
       nodeSelector:
-        gpuNodeType: 'default'
+        gpuNodeType: 'shared'
       {{- end }}
