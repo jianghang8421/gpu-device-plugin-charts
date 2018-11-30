@@ -1,7 +1,11 @@
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
+  {{- if .Values.shared }}
+  name: shared-nvidia-device-plugin-daemonset
+  {{- else }}
   name: nvidia-device-plugin-daemonset
+  {{- end }}
 #   namespace: kube-system
 spec:
   template:
@@ -23,7 +27,11 @@ spec:
         operator: Exists
         effect: NoSchedule
       containers:
+      {{- if .Values.shared }}
+      - image: "{{ .Values.sharedImage.repository }}:{{ .Values.sharedImage.tag }}"
+      {{- else }}
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+      {{- end }}
         name: nvidia-device-plugin-ctr
         securityContext:
           allowPrivilegeEscalation: false
@@ -36,7 +44,10 @@ spec:
         - name: device-plugin
           hostPath:
             path: /var/lib/kubelet/device-plugins
-      {{- if .Values.useNodeSelector }}
+      {{- if .Values.shared }}
       nodeSelector:
-        gpuNodeType: 'default'
+        gpu.rancher.io/type: 'shared'
+      {{- else }}
+      nodeSelector:
+        gpu.rancher.io/type: 'default'
       {{- end }}

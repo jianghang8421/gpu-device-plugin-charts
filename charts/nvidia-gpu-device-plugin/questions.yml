@@ -19,6 +19,30 @@ questions:
     description: "Nvidia GPU device plugin image tag"
     type: string
     label: Image Tag
+  - variable: sharedImage.repository
+    default: "jianghang8421/shared-gpu-device-plugin"
+    description: "Shared Nvidia GPU device plugin"
+    type: string
+    label: Shared Nvidia GPU device plugin Image Name
+  - variable: sharedImage.tag
+    default: "1.11"
+    description: "Shared Nvidia GPU device plugin image tag"
+    type: string
+    label: Image Tag
+- variable: shared
+  default: false
+  description: "Deploy Shared-GPU Device Plugin"
+  label: Deploy Shared-GPU
+  type: boolean
+  show_subquestion_if: true
+  group: "Shared-GPU"
+  subquestions:
+  - variable: numberOfContainersPerGPU
+    default: '10'
+    description: "Number of Containers per GPU"
+    label: Number of Containers per GPU
+    type: string
+
 
 # - variable: useNodeSelector
 #   default: true
