@@ -32,7 +32,7 @@ questions:
 - variable: shared
   default: false
   description: "Deploy Shared-GPU Device Plugin"
-  label: Deploy Shared-GPU
+  label: Deploy Shared-GPU Device Plugin
   type: boolean
   show_subquestion_if: true
   group: "Shared-GPU"
